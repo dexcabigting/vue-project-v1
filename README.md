@@ -10,13 +10,13 @@
 SETUP
 
 Run:
->composer install
->npm install
->npm run dev
+composer install
+npm install
+npm run dev
 
 * Create mysql database named vue_project_v1 on localhost
 * Go to .env file, change DB_DATABASE to DB_DATABASE=vue_project_v1
 
 Run:
->php artisan migrate
->php artisan serve
+php artisan migrate
+php artisan serve
