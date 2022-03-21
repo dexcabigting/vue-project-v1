@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\StoreBookRequest;
+
 class BookController extends Controller
 {
     /**
@@ -38,9 +40,11 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
         // Store method gets the request from the create method and stores it in the database.
+
+    
     }
 
     /**
