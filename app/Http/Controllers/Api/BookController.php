@@ -7,6 +7,7 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Resources\BookResource;
 
 class BookController extends Controller
 {
@@ -34,7 +35,9 @@ class BookController extends Controller
     {
         // Store method gets the request from the create method and stores it in the database.
 
+        $book = Book::create($request->all());
 
+        return new BookResource($book);
     }
 
     /**
