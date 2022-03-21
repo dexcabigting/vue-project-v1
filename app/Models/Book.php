@@ -13,6 +13,7 @@ class Book extends Model
         'title',
         'author',
         'category',
+        'description',
         'publishing_house',
         'publishing_date',
     ];
