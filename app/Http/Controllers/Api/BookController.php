@@ -25,16 +25,6 @@ class BookController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // Create method returns the view where you create a resource.
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -44,7 +34,7 @@ class BookController extends Controller
     {
         // Store method gets the request from the create method and stores it in the database.
 
-    
+
     }
 
     /**
@@ -56,17 +46,6 @@ class BookController extends Controller
     public function show(Book $book)
     {
         // Show method displays a specific resource from the database.
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Book $book)
-    {
-        // Edit method displays the view where you edit a specific resource.
     }
 
     /**
