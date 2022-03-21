@@ -15,7 +15,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        // Index method displays all resources from the database.
     }
 
     /**
@@ -25,7 +25,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        // Create method returns the view where you create a resource.
     }
 
     /**
@@ -36,7 +36,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Store method gets the request from the create method and stores it in the database.
     }
 
     /**
@@ -47,7 +47,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        // Show method displays a specific resource from the database.
     }
 
     /**
@@ -58,7 +58,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        // Edit method displays the view where you edit a specific resource.
     }
 
     /**
@@ -70,7 +70,7 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        // Update method gets the requests from the edit method and updates the resource in the database.
     }
 
     /**
@@ -81,6 +81,6 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        // Destroy method deletes a specific resource.
     }
 }
