@@ -16,6 +16,10 @@ class BookController extends Controller
     public function index()
     {
         // Index method displays all resources from the database.
+
+        $books = Book::all();
+
+        return BookResource::collection($books);
     }
 
     /**
