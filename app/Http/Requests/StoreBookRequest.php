@@ -30,7 +30,7 @@ class StoreBookRequest extends FormRequest
             'category' => ['required', 'max:100'],
             'description' => ['required', 'max:100'],
             'publishing_house' => ['required', 'max:100'],
-            'publishing_date' => ['required'. 'date']
+            'publishing_date' => ['required', 'date']
         ];
     }
 }
