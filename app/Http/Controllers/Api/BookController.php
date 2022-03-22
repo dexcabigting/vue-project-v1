@@ -81,5 +81,9 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         // Destroy method deletes a specific resource.
+
+        $book->delete();
+
+        return response("Book has been deleted successfully", 200);
     }
 }
