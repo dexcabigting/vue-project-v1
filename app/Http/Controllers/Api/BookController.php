@@ -7,6 +7,7 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 
 class BookController extends Controller
@@ -60,9 +61,15 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
         // Update method gets the requests from the edit method and updates the resource in the database.
+
+        $bookUpdate = $request->all();
+
+        $book->update($bookUpdate);
+
+        return new BookResource($book);
     }
 
     /**
