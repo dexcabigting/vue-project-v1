@@ -49,6 +49,8 @@ class BookController extends Controller
     public function show(Book $book)
     {
         // Show method displays a specific resource from the database.
+
+        return new BookResource($book);
     }
 
     /**
