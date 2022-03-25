@@ -84,6 +84,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return response("Book has been deleted successfully", 200);
+        return response("Book has been deleted successfully", 204);
     }
 }
