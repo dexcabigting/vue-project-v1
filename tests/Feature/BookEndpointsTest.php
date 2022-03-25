@@ -86,4 +86,26 @@ class BookEndPointsTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function testDestroyEndpoint()
+    {
+        $bookData = [
+            'title' => 'Betlog ni Muriel',
+            'author' => 'Shehyee',
+            'category' => 'Hiphop',
+            'description' => 'Aezakmi',
+            'publishing_house' => 'Children of Sir Jo Incorporated',
+            'publishing_date' => now(),
+        ];
+
+        $book = Book::create($bookData);
+
+        $this->assertDatabaseHas('books', $bookData);
+
+        $response = $this->delete('/api/books/' . $book->id);
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('books', $bookData);
+    }
 }
