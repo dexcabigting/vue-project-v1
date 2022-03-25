@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Book;
 
 class BookManagementTest extends TestCase
 {
@@ -13,9 +14,9 @@ class BookManagementTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function testIndexEndpoint()
     {
-        $response = $this->get('/');
+        $response = $this->get('/api/books');
 
         $response->assertStatus(200);
     }
