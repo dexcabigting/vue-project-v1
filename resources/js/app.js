@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 
-createApp(App).mount('#app')
+createApp(App).use(router).mount('#app')
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -9,9 +10,10 @@ createApp(App).mount('#app')
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+// require('./bootstrap');
 
-window.Vue = require('vue').default;
+
+// window.Vue = require('vue').default;
 
 /**
  * The following block of code may be used to automatically register your
@@ -24,10 +26,10 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component(
-    'Test', 
-    require('./components/Test.vue').default
-);
+// Vue.component(
+//     'Test', 
+//     require('./components/Test.vue').default
+// );
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,6 +37,6 @@ Vue.component(
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-});
+// const app = new Vue({
+//     el: '#app',
+// });

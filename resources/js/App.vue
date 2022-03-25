@@ -1,15 +1,17 @@
 <template>
-  <Test> </Test>
+  <NavBar/>
+  <router-view/>
 </template>
 
 <script>
-import Test from "./components/Test.vue"
-
+import NavBar from '../js/components/NavBar.vue'
 export default {
-    components: {Test}
+  components: { NavBar }
 }
 </script>
 
 <style>
-
+  body{
+    margin: 0
+  }
 </style>
