@@ -21,4 +21,20 @@ class BookManagementTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function testStoreEndpoint()
+    {
+        $bookData = [
+            'title' => 'Betlog ni Muriel',
+            'author' => 'Shehyee',
+            'category' => 'Hiphop',
+            'description' => 'Aezakmi',
+            'publishing_house' => 'Children of Sir Jo Incorporated',
+            'publishing_date' => now(),
+        ];
+
+        $response = $this->post('/api/books', $bookData);
+
+        $response->assertStatus(201);
+    }
 }
