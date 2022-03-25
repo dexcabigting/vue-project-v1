@@ -9,5 +9,8 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseMigrations;
 
-    
+    public function setup(): void
+    {
+        parent::setUp();
+    }
 }
