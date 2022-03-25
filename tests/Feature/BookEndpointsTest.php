@@ -37,4 +37,33 @@ class BookEndPointsTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    public function testUpdateEndpoint()
+    {
+        $bookData = [
+            'title' => 'Betlog ni Muriel',
+            'author' => 'Shehyee',
+            'category' => 'Hiphop',
+            'description' => 'Aezakmi',
+            'publishing_house' => 'Children of Sir Jo Incorporated',
+            'publishing_date' => now(),
+        ];
+
+        $newBookData = [
+            'title' => 'Ngipin ni Chel',
+            'author' => 'Leni Rob-redo',
+            'category' => 'Politics',
+            'description' => 'Tuta ng Estados Unidos',
+            'publishing_house' => 'Liberal Party',
+            'publishing_date' => now(),
+        ];
+
+        $book = Book::create($bookData);
+
+        $this->assertDatabaseHas('books', $bookData);
+
+        $response = $this->patch('/api/books/' . $book->id, $newBookData);
+
+        $response->assertStatus(200);
+    }
 }
