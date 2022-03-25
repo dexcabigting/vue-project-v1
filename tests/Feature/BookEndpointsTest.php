@@ -38,6 +38,26 @@ class BookEndPointsTest extends TestCase
         $response->assertStatus(201);
     }
 
+    public function testShowEndpoint()
+    {
+        $bookData = [
+            'title' => 'Betlog ni Muriel',
+            'author' => 'Shehyee',
+            'category' => 'Hiphop',
+            'description' => 'Aezakmi',
+            'publishing_house' => 'Children of Sir Jo Incorporated',
+            'publishing_date' => now(),
+        ];
+
+        $book = Book::create($bookData);
+
+        $this->assertDatabaseHas('books', $bookData);
+
+        $response = $this->get('/api/books/' . $book->id);
+
+        $response->assertStatus(200);
+    }
+
     public function testUpdateEndpoint()
     {
         $bookData = [
