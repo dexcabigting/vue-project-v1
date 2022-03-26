@@ -17508,7 +17508,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['selectedBook']
+  props: ['selectedBook'],
+  emits: ['deleteClicked'],
+  setup: function setup(props, _ref) {
+    var emit = _ref.emit;
+
+    var deleteBook = function deleteBook(id) {
+      emit('deleteClicked', id);
+    };
+
+    return {
+      deleteBook: deleteBook
+    };
+  }
 });
 
 /***/ }),
@@ -17628,13 +17640,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_components_BookForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../js/components/BookForm.vue */ "./resources/js/components/BookForm.vue");
 /* harmony import */ var _js_composables_BookList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../js/composables/BookList */ "./resources/js/composables/BookList.js");
 /* harmony import */ var _js_composables_BookDetails__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../js/composables/BookDetails */ "./resources/js/composables/BookDetails.js");
-/* harmony import */ var _js_composables_BookAdd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../js/composables/BookAdd */ "./resources/js/composables/BookAdd.js");
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
+/* harmony import */ var _js_composables_BookDelete__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../js/composables/BookDelete */ "./resources/js/composables/BookDelete.js");
 
 
 
@@ -17657,6 +17663,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     load();
     var selectedBook = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
 
+    var setBks = function setBks() {
+      load();
+    };
+
     var setBookId = function setBookId(id) {
       var _getBook = (0,_js_composables_BookDetails__WEBPACK_IMPORTED_MODULE_5__["default"])(id),
           book = _getBook.book,
@@ -17668,30 +17678,26 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     };
 
     var insert = function insert(formData) {
-      console.log(formData);
-
-      var _iterator = _createForOfIteratorHelper(formData),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var e = _step.value;
-          console.log(e);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
       fetch("http://localhost:8000/api/books", {
         method: 'post',
         body: formData
       }).then(function (res) {
         return res.json();
-      }).then(function (data) {
-        formData.title = '';
-      }); // .catch(err => console.log(err))
+      });
+      setBks();
+      alert("Entry Added");
+    };
+
+    var deleteBk = function deleteBk(id) {
+      console.log(id);
+
+      var _deleteBook = (0,_js_composables_BookDelete__WEBPACK_IMPORTED_MODULE_6__["default"])(id),
+          err = _deleteBook.err,
+          load = _deleteBook.load;
+
+      load();
+      setBks();
+      alert("Entry Deleted");
     };
 
     return {
@@ -17699,7 +17705,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       error: error,
       selectedBook: selectedBook,
       setBookId: setBookId,
-      insert: insert
+      insert: insert,
+      deleteBk: deleteBk
     };
   }
 });
@@ -17751,27 +17758,28 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "book-header"
 };
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_3 = {
   "class": "book-view-buttons"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, " Edit "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, " Delete")], -1
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, " Edit ", -1
 /* HOISTED */
 );
 
-var _hoisted_4 = {
+var _hoisted_5 = {
   key: 1,
   "class": "book-view-wrapper"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
   "class": "book-header"
 }, " Book Title ", -1
 /* HOISTED */
 );
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Click a book... ");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No book selected... ");
 
-var _hoisted_7 = [_hoisted_5, _hoisted_6];
+var _hoisted_8 = [_hoisted_6, _hoisted_7];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$props$selectedBook;
 
@@ -17791,7 +17799,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " Entry last updated at: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.updated_at), 1
   /* TEXT */
-  ), _hoisted_3])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_7));
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $setup.deleteBook($props.selectedBook.value.data.id);
+    })
+  }, " Delete")])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, _hoisted_8));
 }
 
 /***/ }),
@@ -17927,13 +17939,30 @@ var _hoisted_1 = {
   key: 0,
   "class": "book-list-wrapper"
 };
-var _hoisted_2 = ["onClick"];
-var _hoisted_3 = {
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "book-header centered"
+}, " Books ", -1
+/* HOISTED */
+);
+
+var _hoisted_3 = ["onClick"];
+var _hoisted_4 = {
   key: 1,
   "class": "book-list-wrapper"
 };
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "book-header centered"
+}, " Books ", -1
+/* HOISTED */
+);
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Loading... ");
+
+var _hoisted_7 = [_hoisted_5, _hoisted_6];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $props.books.data ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.books.data, function (book) {
+  return $props.books.data ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.books.data, function (book) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       onClick: function onClick($event) {
         return $setup.setBookId(book.id);
@@ -17948,10 +17977,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )], 10
     /* CLASS, PROPS */
-    , _hoisted_2);
+    , _hoisted_3);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, " Loading... "));
+  ))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_7));
 }
 
 /***/ }),
@@ -18033,17 +18062,10 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "book-window book-list sidemargin"
 };
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-  "class": "book-header centered"
-}, " Books ", -1
-/* HOISTED */
-);
-
-var _hoisted_4 = {
+var _hoisted_3 = {
   "class": "book-window book-details sidemargin"
 };
-var _hoisted_5 = {
+var _hoisted_4 = {
   "class": "book-window book-form sidemargin"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -18053,16 +18075,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_BookForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("BookForm");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookList, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookList, {
     books: $setup.books,
     onBookClick: $setup.setBookId
   }, null, 8
   /* PROPS */
-  , ["books", "onBookClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookDetails, {
-    selectedBook: $setup.selectedBook
+  , ["books", "onBookClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookDetails, {
+    selectedBook: $setup.selectedBook,
+    onDeleteClicked: $setup.deleteBk
   }, null, 8
   /* PROPS */
-  , ["selectedBook"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookForm, {
+  , ["selectedBook", "onDeleteClicked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookForm, {
     onSubmitted: $setup.insert
   }, null, 8
   /* PROPS */
@@ -18138,10 +18161,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/composables/BookAdd.js":
-/*!*********************************************!*\
-  !*** ./resources/js/composables/BookAdd.js ***!
-  \*********************************************/
+/***/ "./resources/js/composables/BookDelete.js":
+/*!************************************************!*\
+  !*** ./resources/js/composables/BookDelete.js ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -18160,9 +18183,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-var insertBook = function insertBook() {
-  var book = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)();
-  var error = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+var deleteBook = function deleteBook(id) {
+  var err = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
 
   var load = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -18173,7 +18195,9 @@ var insertBook = function insertBook() {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return fetch("http://localhost:8000/api/books/");
+              return fetch("http://localhost:8000/api/books/" + id, {
+                method: 'delete'
+              });
 
             case 3:
               data = _context.sent;
@@ -18186,26 +18210,21 @@ var insertBook = function insertBook() {
               throw Error("No data available");
 
             case 6:
-              _context.next = 8;
-              return data.json();
-
-            case 8:
-              book.value = _context.sent;
-              _context.next = 15;
+              _context.next = 12;
               break;
 
-            case 11:
-              _context.prev = 11;
+            case 8:
+              _context.prev = 8;
               _context.t0 = _context["catch"](0);
-              error.value = _context.t0.message;
-              console.log(error.value);
+              _context.t0.value = _context.t0.message;
+              console.log(_context.t0.value);
 
-            case 15:
+            case 12:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[0, 11]]);
+      }, _callee, null, [[0, 8]]);
     }));
 
     return function load() {
@@ -18214,13 +18233,12 @@ var insertBook = function insertBook() {
   }();
 
   return {
-    book: book,
-    error: error,
+    err: err,
     load: load
   };
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (insertBook);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (deleteBook);
 
 /***/ }),
 
@@ -18496,7 +18514,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nform{\r\n        display: flex;\r\n        flex-direction: column;\r\n        margin: 10px 0;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nform{\r\n        display: flex;\r\n        flex-direction: column;\r\n        margin: 10px 0;\r\n        margin-top: 0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

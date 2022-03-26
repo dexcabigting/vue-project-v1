@@ -10,19 +10,28 @@
       <p> Entry last updated at: {{ selectedBook.value.data.updated_at }}</p>
       <div class="book-view-buttons">
         <button> Edit </button>
-        <button> Delete</button>
+        <button @click="deleteBook(selectedBook.value.data.id)"> Delete</button>
       </div>
   </div>
   <div v-else class="book-view-wrapper">
       <h2 class="book-header"> Book Title </h2>
-      Click a book...
+      No book selected...
   </div>
 </template>
 
 <script>
 
 export default {
-    props: [ 'selectedBook' ]
+    props: [ 'selectedBook' ],
+    emits: [ 'deleteClicked' ],
+    setup(props, { emit }){
+        
+        const deleteBook = (id) => {
+            emit('deleteClicked', id)
+        }
+
+        return { deleteBook }
+    }
 }
 
 </script>

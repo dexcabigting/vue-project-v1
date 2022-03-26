@@ -1,5 +1,6 @@
 <template>
   <div v-if="books.data" class="book-list-wrapper">
+      <h2 class="book-header centered"> Books </h2>
       <div @click="setBookId(book.id)" 
         v-for="book in books.data" 
         :key="book.id" class="book"
@@ -9,6 +10,7 @@
       </div>
   </div>
   <div v-else class="book-list-wrapper">
+      <h2 class="book-header centered"> Books </h2>
       Loading...
   </div>
 </template>

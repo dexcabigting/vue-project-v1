@@ -1,11 +1,10 @@
 <template>
   <div class="book-view">
     <div class="book-window book-list sidemargin">
-      <h2 class="book-header centered"> Books </h2>
       <BookList :books="books" @bookClick="setBookId" />
     </div>
     <div class="book-window book-details sidemargin">
-      <BookDetails :selectedBook="selectedBook"/>
+      <BookDetails :selectedBook="selectedBook" @deleteClicked="deleteBk" />
     </div>
     <div class="book-window book-form sidemargin">
       <BookForm @submitted="insert" />
@@ -20,7 +19,7 @@ import BookDetails from '../js/components/BookDetails.vue'
 import BookForm from '../js/components/BookForm.vue'
 import getBooks from '../js/composables/BookList'
 import getBook from '../js/composables/BookDetails'
-import insertBook from '../js/composables/BookAdd'
+import deleteBook from '../js/composables/BookDelete'
 
 export default {
   components: { BookList, BookDetails, BookForm },
@@ -31,6 +30,10 @@ export default {
 
     let selectedBook = ref(null)
 
+    const setBks = () => {
+      load()
+    }
+
     const setBookId = (id) => {
       const { book, error, load } = getBook(id)
 
@@ -39,23 +42,31 @@ export default {
       selectedBook.value = book
     }
 
+
     const insert = (formData) => {
-      console.log(formData)
-      for (let e of formData){
-        console.log(e)
-      }
       fetch("http://localhost:8000/api/books", {
         method: 'post',
         body: formData,
       })
       .then(res => res.json())
-      .then(data => {
-        formData.title = ''
-      })
-      // .catch(err => console.log(err))
+
+      setBks()
+
+      alert("Entry Added")
     }
 
-    return { books, error, selectedBook, setBookId, insert }
+    const deleteBk = (id) => {
+      console.log(id)
+      const { err, load } = deleteBook(id)
+
+      load()
+
+      setBks()
+
+      alert("Entry Deleted")
+    }
+
+    return { books, error, selectedBook, setBookId, insert, deleteBk }
   }
 }
 </script>
