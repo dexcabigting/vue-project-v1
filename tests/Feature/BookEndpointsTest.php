@@ -14,12 +14,6 @@ class BookEndPointsTest extends TestCase
      *
      * @return void
      */
-    public function testIndexEndpoint()
-    {
-        $response = $this->get('/api/books');
-
-        $response->assertStatus(200);
-    }
 
     public function testStoreEndpoint()
     {
