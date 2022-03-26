@@ -36,4 +36,21 @@ class BookStoreEndpointTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    public function testIfStoreEndpointRejectsInvalidTitle()
+    {
+        $book = [
+            'title' => 'Samp',
+            'author' => 'Mongmong Barcos',
+            'description' => 'Tujongs',
+            'category' => 'Politics',
+            'publishing_house' => 'GenSan',
+            'publishing_date' => now()
+        ];
+
+        $response = $this->post('/api/books', $book);
+
+        $response->assertInvalid(['title']);
+        $response->assertStatus(302);
+    }
 }
