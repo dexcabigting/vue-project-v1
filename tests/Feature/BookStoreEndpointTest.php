@@ -37,6 +37,23 @@ class BookStoreEndpointTest extends TestCase
         $response->assertStatus(201);
     }
 
+    public function testIfStoreEndpointRejectsMissingInputs()
+    {
+        $book = [
+            'title' => null,
+            'author' => null,
+            'description' => null,
+            'category' => null,
+            'publishing_house' => null,
+            'publishing_date' => null
+        ];
+
+        $response = $this->post('/api/books', $book);
+
+        $response->assertInvalid(['title', 'author', 'description', 'category', 'publishing_house', 'publishing_date']);
+        $response->assertStatus(302);
+    }
+
     public function testIfStoreEndpointRejectsInvalidTitle()
     {
         $book = [
