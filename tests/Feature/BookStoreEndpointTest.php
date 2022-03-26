@@ -15,7 +15,7 @@ class BookStoreEndpointTest extends TestCase
      *
      * @return void
      */
-    public function testIfStoreEndpointExists()
+    public function testIfStoreEndpointExistsWithValidInputs()
     {
         $this->withoutExceptionHandling();
 
