@@ -32,4 +32,11 @@ class BookShowEndpointTest extends TestCase
         $this->assertDatabaseMissing('books', ['id' => 1]);
         $response->assertStatus(404);
     }
+
+    public function testIfShowEndpointRejectsInvalidId()
+    {
+        $response = $this->get('/api/books/' . 'adwwq');
+
+        $response->assertStatus(404);
+    }
 }
