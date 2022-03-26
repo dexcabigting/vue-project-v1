@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use App\Models\Book;
+
 class BookDestroyEndPointTest extends TestCase
 {
     /**
@@ -13,10 +15,13 @@ class BookDestroyEndPointTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function testIfDestroyEndpointExistsByDeletingARecord()
     {
-        $response = $this->get('/');
+        $book = Book::factory()->create();
 
-        $response->assertStatus(200);
+        $response = $this->delete('/api/books/' . $book->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('books', ['id' => $book->id]);
     }
 }
