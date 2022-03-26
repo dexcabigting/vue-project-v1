@@ -25,7 +25,7 @@ class BookIndexEndpointTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testIfIndexEndpointHasBookRecords()
+    public function testIfIndexEndpointHasBookData()
     {
         $this->withoutExceptionHandling();
 
@@ -40,5 +40,16 @@ class BookIndexEndpointTest extends TestCase
         $this->assertEquals(3, Book::count());
 
         $this->assertDatabaseHas('books', $bookTitles);
+    }
+
+    public function testIfIndexEndpointHasEmptyBookData()
+    {
+        $this->withoutExceptionHandling();
+
+        $response = $this->get('/api/books');
+
+        $response->assertStatus(200);
+
+        $this->assertEquals(0, Book::count());
     }
 }
