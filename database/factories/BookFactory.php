@@ -19,7 +19,7 @@ class BookFactory extends Factory
         return [
             'title' => $this->faker->words(3),
             'author' => $this->faker->name(),
-            'category' => $this->faker->word,
+            'category' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'publishing_house' => $this->faker->company() . " " . $this->faker->companySuffix(),
             'publishing_date' => now(),
