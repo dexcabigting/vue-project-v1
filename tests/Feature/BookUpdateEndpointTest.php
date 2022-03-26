@@ -19,11 +19,7 @@ class BookUpdateEndpointTest extends TestCase
     {
         $book = Book::factory()->create();
 
-        $oldTitle = $book->title;
-
         $response = $this->patch('/api/books/' . $book->id, ['title' => 'Barako']);
-
-        $newTitle = Book::findOrFail($book->id)->first()->title;
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('books', ['id' => $book->id, 'title' => 'Barako']);
