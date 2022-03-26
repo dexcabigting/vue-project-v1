@@ -1,32 +1,44 @@
 <template>
-  <div v-if="books.data">
-      <div @click="setBookId(book.id)" v-for="book in books.data" :key="book.id" class="book">
-          <h2> {{ book.title }} </h2>
+  <div v-if="books.data" class="book-list-wrapper">
+      <div @click="setBookId(book.id)" 
+        v-for="book in books.data" 
+        :key="book.id" class="book"
+        :class="{ selected: book.id === selectedBook}">
+          <h3> {{ book.title }} </h3>
           <p> By {{ book.author }} </p>
       </div>
   </div>
-  <div v-else>
+  <div v-else class="book-list-wrapper">
       Loading...
   </div>
 </template>
 
 <script>
+import { watch, ref } from 'vue'
+
 export default {
     props: ['books'],
     setup(props, { emit }) {
 
+        const selectedBook = ref(null);
+
         function setBookId(id) {
+            selectedBook.value = id
             emit('bookClick', id)
         }
 
-        return { setBookId }
+        return { setBookId, selectedBook }
     }
 }
 </script>
 
 <style>
-    h2, p{
+    h2, h3, p{
         text-align: center;
+    }
+    .book-header{
+        width: 100%;
+        border-bottom: 2px solid black;
     }
         
     .book {
@@ -39,6 +51,10 @@ export default {
         width: 40%;
     }
     .book:hover{
+        background: greenyellow;
+    }
+    .selected {
+        outline: 3px solid black;
         background: greenyellow;
     }
 </style>
