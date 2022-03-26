@@ -29,14 +29,16 @@ class BookIndexEndpointTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $book = Book::factory()->create()->toArray();
+        $books = Book::factory()->count(3)->create();
+
+        $bookTitles = $books->only(['title'])->all();
 
         $response = $this->get('/api/books');
 
         $response->assertStatus(200);
 
-        $this->assertEquals(1, Book::count());
+        $this->assertEquals(3, Book::count());
 
-        $this->assertDatabaseHas('books', ['title' => $book['title']]);
+        $this->assertDatabaseHas('books', $bookTitles);
     }
 }
