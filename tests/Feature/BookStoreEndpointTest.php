@@ -105,4 +105,21 @@ class BookStoreEndpointTest extends TestCase
         $response->assertInvalid(['category']);
         $response->assertStatus(302);
     }
+
+    public function testIfStoreEndpointRejectsInvalidPublishingHouse()
+    {
+        $book = [
+            'title' => 'Sample Book',
+            'author' => 'Mongmong Marcos',
+            'description' => 'Tujongs',
+            'category' => 'Politics',
+            'publishing_house' => 'GenS',
+            'publishing_date' => now()
+        ];
+
+        $response = $this->post('/api/books', $book);
+
+        $response->assertInvalid(['publishing_house']);
+        $response->assertStatus(302);
+    }
 }
