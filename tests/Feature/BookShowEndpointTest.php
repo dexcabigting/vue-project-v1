@@ -24,4 +24,12 @@ class BookShowEndpointTest extends TestCase
         $this->assertDatabaseHas('books', ['id' => $book->id]);
         $response->assertStatus(200);
     }
+
+    public function testIfShowEndpointRejectsNonExistentRecord()
+    {
+        $response = $this->get('/api/books/' . 1);
+
+        $this->assertDatabaseMissing('books', ['id' => 1]);
+        $response->assertStatus(404);
+    }
 }
