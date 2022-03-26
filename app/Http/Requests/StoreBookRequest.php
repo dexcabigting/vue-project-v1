@@ -25,11 +25,11 @@ class StoreBookRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'max:100'],
-            'author' => ['required', 'max:100'],
-            'category' => ['required', 'max:100'],
-            'description' => ['required', 'max:100'],
-            'publishing_house' => ['required', 'max:100'],
+            'title' => ['required', 'string', 'max:100'],
+            'author' => ['required', 'string', 'max:100'],
+            'category' => ['required', 'string', 'max:100'],
+            'description' => ['required', 'string', 'max:100'],
+            'publishing_house' => ['required', 'string', 'max:100'],
             'publishing_date' => ['required', 'date']
         ];
     }
