@@ -21,6 +21,7 @@ class BookShowEndpointTest extends TestCase
 
         $response = $this->get('/api/books/' . $book->id);
 
+        $this->assertDatabaseHas('books', ['id' => $book->id]);
         $response->assertStatus(200);
     }
 }
