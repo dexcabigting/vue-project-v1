@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use App\Models\Book;
+
 class BookUpdateEndpointTest extends TestCase
 {
     /**
@@ -13,10 +15,17 @@ class BookUpdateEndpointTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function testIfUpdateEndpointExistsByModifyingARecord()
     {
-        $response = $this->get('/');
+        $book = Book::factory()->create();
+
+        $oldTitle = $book->title;
+
+        $response = $this->patch('/api/books/' . $book->id, ['title' => 'Barako']);
+
+        $newTitle = Book::findOrFail($book->id)->first()->title;
 
         $response->assertStatus(200);
+        $this->assertDatabaseHas('books', ['id' => $book->id, 'title' => 'Barako']);
     }
 }
