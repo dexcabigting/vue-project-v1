@@ -22,7 +22,7 @@ class BookShowEndpointTest extends TestCase
     {
         $book = Book::factory()->create();
 
-        $response = $this->get('/api/books/' . $book->id);
+        $response = $this->get(route('books.show', ['book' => $book]));
 
         $this->assertDatabaseHas('books', ['id' => $book->id]);
         $response->assertStatus(200);
@@ -32,7 +32,7 @@ class BookShowEndpointTest extends TestCase
 
     public function testIfEndpointRejectsNonExistentRecord()
     {
-        $response = $this->get('/api/books/' . 1);
+        $response = $this->get(route('books.show', ['book' => 1]));
 
         $this->assertDatabaseMissing('books', ['id' => 1]);
         $response->assertStatus(404);
@@ -40,7 +40,7 @@ class BookShowEndpointTest extends TestCase
 
     public function testIfEndpointRejectsInvalidRecordId()
     {
-        $response = $this->get('/api/books/' . 'adwwq');
+        $response = $this->get(route('books.show', ['book' => 'aqwsd']));
 
         $response->assertStatus(404);
     }
