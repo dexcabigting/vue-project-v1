@@ -18,7 +18,7 @@ class BookUpdateEndpointTest extends TestCase
 
     // Test to Pass
 
-    public function testIfUpdateEndpointExistsWithValidFormInputs()
+    public function testIfEndpointExistsWithValidFormInputs()
     {
         $book = Book::factory()->create();
 
@@ -39,14 +39,14 @@ class BookUpdateEndpointTest extends TestCase
 
     // Test to Fail
 
-    public function testIfUpdateEndpointFailsIfThereAreNoRecords()
+    public function testIfEndpointFailsIfThereAreNoRecords()
     {
         $response = $this->patch('/api/books/1', ['title' => 'Jejomar Binay']);
 
         $response->assertStatus(404);
     }
 
-    public function testIfUpdateEndpointFailsByModifyingARecordWithInvalidData()
+    public function testIfEndpointFailsWhenOneOrMoreFormInputsAreInvalid()
     {
         $book = Book::factory()->create();
 
