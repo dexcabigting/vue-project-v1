@@ -15,6 +15,9 @@ class BookStoreEndpointTest extends TestCase
      *
      * @return void
      */
+
+    // Test to Pass
+
     public function testIfEndpointExistsWithValidInputs()
     {
         $this->withoutExceptionHandling();
@@ -156,4 +159,6 @@ class BookStoreEndpointTest extends TestCase
         $response->assertInvalid(['publishing_date']);
         $response->assertStatus(302);
     }
+
+    // Test to Fail
 }
