@@ -29,4 +29,12 @@ class BookDestroyEndPointTest extends TestCase
     }
 
     // Test to Fail
+
+    public function testIfEndpointFailsByDeletingANonExistentRecord()
+    {
+        $response = $this->delete('/api/books/1');
+
+        $this->assertDatabaseMissing('books', ['id' => 1]);
+        $response->assertStatus(404);
+    }
 }
