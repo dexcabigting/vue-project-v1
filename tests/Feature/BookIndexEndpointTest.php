@@ -21,7 +21,7 @@ class BookIndexEndpointTest extends TestCase
 
     public function testIfEndpointExists()
     {
-        $response = $this->get('/api/books');
+        $response = $this->get(route('books.index'));
 
         $response->assertStatus(200);
     }
@@ -32,7 +32,7 @@ class BookIndexEndpointTest extends TestCase
 
         $bookTitles = $books->only(['title'])->all();
 
-        $response = $this->get('/api/books');
+        $response = $this->get(route('books.index'));
 
         $response->assertStatus(200);
 
@@ -43,7 +43,7 @@ class BookIndexEndpointTest extends TestCase
 
     public function testIfEndpointRespondsWithEmptyRecords()
     {
-        $response = $this->get('/api/books');
+        $response = $this->get(route('books.index'));
 
         $response->assertStatus(200);
 
