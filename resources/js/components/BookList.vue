@@ -42,7 +42,7 @@ export default {
     .book-list-wrapper{
         display: flex;
         flex-flow: column wrap;
-        height: calc(185*4)px;
+        max-height: 680px;
         width: 260px;
     }
     .book-header{
@@ -56,7 +56,7 @@ export default {
         background: white;
         margin: 10px auto;
         padding: 10px;
-        border-radius: 15px;
+        border-radius: 10px;
         width: 40%;
         height: 185px;
     }

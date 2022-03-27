@@ -19,7 +19,7 @@
       <label> Publish Date: </label>
       <input class="rounded-input" type="date" required v-model="publishing_date">
 
-      <input class="rounded-input" type="submit" value="Add Book">
+      <input class="rounded-input book-add-submit" type="submit" value="Add Book">
   </form>
 </template>
 
@@ -40,7 +40,7 @@ export default {
         })
 
         function handleSubmit(){
-            var fd = new FormData()
+            let fd = new FormData()
             fd.append("title", formData.title)
             fd.append("author", formData.author)
             fd.append("category", formData.category)
@@ -72,7 +72,7 @@ export default {
     form :nth-child(odd){
         margin: 10px;
     }
-    input[type="submit"]{
+    .book-add-submit{
         background-color: rgb(45, 175, 45);
         font-weight: bold;
         margin: 10px auto; 

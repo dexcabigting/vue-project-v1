@@ -4,7 +4,7 @@
       <BookList :books="books" @bookClick="setBookId" />
     </div>
     <div class="book-window book-details sidemargin">
-      <BookDetails :selectedBook="selectedBook" @deleteClicked="deleteBk"> 
+      <BookDetails :selectedBook="selectedBook" @updateClicked="updateBk" @deleteClicked="deleteBk"> 
         <p> {{ defaultBookDetailMessage }}</p>
       </BookDetails>
     </div>
@@ -21,6 +21,7 @@ import BookDetails from '../js/components/BookDetails.vue'
 import BookForm from '../js/components/BookForm.vue'
 import getBooks from '../js/composables/BookList'
 import getBook from '../js/composables/BookDetails'
+import updateBook from '../js/composables/BookUpdate'
 import deleteBook from '../js/composables/BookDelete'
 
 export default {
@@ -51,11 +52,10 @@ export default {
 
     const insertBk = async (formData) => {
       try{
-        await fetch("http://localhost:8000/api/books", {
+        await fetch("/api/books", {
           method: 'post',
           body: formData,
         })
-        .then(res => res.json())
       }
       catch(err){
         console.log(err.message)
@@ -64,6 +64,21 @@ export default {
       setBks()
 
       alert("Entry Added")
+    }
+
+    const updateBk = (id, fd) => {
+      const { error, load } = updateBook(id, fd)
+
+      load()
+
+      if (error.value){
+        console.log(error.value)
+        return
+      }
+
+      alert("Book updated")
+
+      setBks()
     }
 
     const deleteBk = (id) => {
@@ -76,7 +91,7 @@ export default {
       alert("Entry Deleted")
     }
 
-    return { defaultBookDetailMessage , books, error, selectedBook, setBookId, insertBk, deleteBk }
+    return { defaultBookDetailMessage , books, error, selectedBook, setBookId, insertBk, updateBk, deleteBk }
   }
 }
 </script>

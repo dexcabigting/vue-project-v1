@@ -6,7 +6,7 @@ const getBooks = () => {
 
     const load = async () => {
       try {
-        let data = await fetch("http://localhost:8000/api/books")
+        let data = await fetch("/api/books")
         if (!data.ok){
           throw Error("No data available")
         }

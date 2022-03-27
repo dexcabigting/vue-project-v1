@@ -17507,19 +17507,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['selectedBook'],
-  emits: ['deleteClicked'],
+  emits: ['deleteClicked', 'updateClicked'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
+    var editMode = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var formData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+      title: '',
+      author: '',
+      category: '',
+      description: '',
+      publishing_house: '',
+      publishing_date: ''
+    });
+
+    var updateFormData = function updateFormData() {
+      editMode.value = true;
+      formData.title = props.selectedBook.value.data.title;
+      formData.author = props.selectedBook.value.data.author;
+      formData.category = props.selectedBook.value.data.category;
+      formData.description = props.selectedBook.value.data.description;
+      formData.publishing_house = props.selectedBook.value.data.publishing_house;
+      formData.publishing_date = props.selectedBook.value.data.publishing_date;
+    };
+
+    var updateBook = function updateBook() {
+      editMode.value = false;
+      emit('updateClicked', props.selectedBook.value.data.id, handleSubmit());
+    };
 
     var deleteBook = function deleteBook(id) {
       emit('deleteClicked', id);
     };
 
-    return {
-      deleteBook: deleteBook
-    };
+    function handleSubmit() {
+      var fd = new FormData();
+      fd.append("title", formData.title);
+      fd.append("author", formData.author);
+      fd.append("category", formData.category);
+      fd.append("description", formData.description);
+      fd.append("publishing_house", formData.publishing_house);
+      fd.append("publishing_date", formData.publishing_date);
+      return fd;
+    } // Turn off edit mode when selecting another book in booklist.vue
+
+
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(function () {
+      return props.selectedBook;
+    }, function () {
+      editMode.value = false;
+    });
+    return _objectSpread(_objectSpread({}, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)(formData)), {}, {
+      deleteBook: deleteBook,
+      updateBook: updateBook,
+      updateFormData: updateFormData,
+      editMode: editMode
+    });
   }
 });
 
@@ -17644,12 +17696,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_components_BookForm_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../js/components/BookForm.vue */ "./resources/js/components/BookForm.vue");
 /* harmony import */ var _js_composables_BookList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../js/composables/BookList */ "./resources/js/composables/BookList.js");
 /* harmony import */ var _js_composables_BookDetails__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../js/composables/BookDetails */ "./resources/js/composables/BookDetails.js");
-/* harmony import */ var _js_composables_BookDelete__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../js/composables/BookDelete */ "./resources/js/composables/BookDelete.js");
+/* harmony import */ var _js_composables_BookUpdate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../js/composables/BookUpdate */ "./resources/js/composables/BookUpdate.js");
+/* harmony import */ var _js_composables_BookDelete__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../js/composables/BookDelete */ "./resources/js/composables/BookDelete.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -17699,11 +17753,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return fetch("http://localhost:8000/api/books", {
+                return fetch("/api/books", {
                   method: 'post',
                   body: formData
-                }).then(function (res) {
-                  return res.json();
                 });
 
               case 3:
@@ -17732,8 +17784,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       };
     }();
 
+    var updateBk = function updateBk(id, fd) {
+      var _updateBook = (0,_js_composables_BookUpdate__WEBPACK_IMPORTED_MODULE_7__["default"])(id, fd),
+          error = _updateBook.error,
+          load = _updateBook.load;
+
+      load();
+
+      if (error.value) {
+        console.log(error.value);
+        return;
+      }
+
+      alert("Book updated");
+      setBks();
+    };
+
     var deleteBk = function deleteBk(id) {
-      var _deleteBook = (0,_js_composables_BookDelete__WEBPACK_IMPORTED_MODULE_7__["default"])(id),
+      var _deleteBook = (0,_js_composables_BookDelete__WEBPACK_IMPORTED_MODULE_8__["default"])(id),
           err = _deleteBook.err,
           load = _deleteBook.load;
 
@@ -17749,6 +17817,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       selectedBook: selectedBook,
       setBookId: setBookId,
       insertBk: insertBk,
+      updateBk: updateBk,
       deleteBk: deleteBk
     };
   }
@@ -17804,28 +17873,66 @@ var _hoisted_2 = {
 var _hoisted_3 = {
   "class": "book-view-buttons"
 };
-
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, " Edit ", -1
-/* HOISTED */
-);
-
-var _hoisted_5 = {
+var _hoisted_4 = {
   key: 1,
   "class": "book-view-wrapper"
 };
+var _hoisted_5 = {
+  "class": "book-header"
+};
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, " Book Title: ", -1
+/* HOISTED */
+);
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, " Book Author: ", -1
+/* HOISTED */
+);
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, " Book Category: ", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, " Book Description: ", -1
+/* HOISTED */
+);
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, " Publishing House: ", -1
+/* HOISTED */
+);
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, " Publish Date: ", -1
+/* HOISTED */
+);
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  "class": "rounded-input",
+  type: "submit",
+  value: "Update Book"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_13 = {
+  "class": "book-update-buttons"
+};
+var _hoisted_14 = {
+  key: 2,
+  "class": "book-view-wrapper"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
   "class": "book-header"
 }, " Book Title ", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$props$selectedBook;
+  var _$props$selectedBook, _$props$selectedBook2;
 
-  return (_$props$selectedBook = $props.selectedBook) !== null && _$props$selectedBook !== void 0 && _$props$selectedBook.value ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.title), 1
+  return (_$props$selectedBook = $props.selectedBook) !== null && _$props$selectedBook !== void 0 && _$props$selectedBook.value && !$setup.editMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.title), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " Author: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.author), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " Author: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.title), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " Category: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.category), 1
   /* TEXT */
@@ -17839,11 +17946,85 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " Entry last updated at: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.updated_at), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $setup.updateFormData();
+    })
+  }, " Edit "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
       return $setup.deleteBook($props.selectedBook.value.data.id);
     })
-  }, " Delete")])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]));
+  }, " Delete ")])])) : (_$props$selectedBook2 = $props.selectedBook) !== null && _$props$selectedBook2 !== void 0 && _$props$selectedBook2.value && $setup.editMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_5, " Edit \"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedBook.value.data.title) + "\"", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    method: "POST",
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $setup.updateBook && $setup.updateBook.apply($setup, arguments);
+    }, ["prevent"])),
+    name: "updateForm"
+  }, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "rounded-input",
+    type: "text",
+    required: "",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.title = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.title]]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "rounded-input",
+    type: "text",
+    required: "",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.author = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.author]]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "rounded-input",
+    type: "text",
+    required: "",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.category = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.category]]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    "class": "rounded-input",
+    id: "",
+    cols: "30",
+    rows: "10",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.description = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.description]]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "rounded-input",
+    type: "text",
+    required: "",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return _ctx.publishing_house = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.publishing_house]]), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "rounded-input",
+    type: "date",
+    required: "",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return _ctx.publishing_date = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.publishing_date]]), _hoisted_12], 32
+  /* HYDRATE_EVENTS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
+      return $setup.editMode = false;
+    }),
+    "class": "cancel-btn rounded-input"
+  }, " Cancel ")])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]));
 }
 
 /***/ }),
@@ -17893,7 +18074,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-  "class": "rounded-input",
+  "class": "rounded-input book-add-submit",
   type: "submit",
   value: "Add Book"
 }, null, -1
@@ -18122,6 +18303,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["books", "onBookClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookDetails, {
     selectedBook: $setup.selectedBook,
+    onUpdateClicked: $setup.updateBk,
     onDeleteClicked: $setup.deleteBk
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -18134,7 +18316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["selectedBook", "onDeleteClicked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookForm, {
+  , ["selectedBook", "onUpdateClicked", "onDeleteClicked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookForm, {
     onSubmitted: $setup.insertBk
   }, null, 8
   /* PROPS */
@@ -18412,7 +18594,7 @@ var getBooks = function getBooks() {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return fetch("http://localhost:8000/api/books");
+              return fetch("/api/books");
 
             case 3:
               data = _context.sent;
@@ -18460,6 +18642,90 @@ var getBooks = function getBooks() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getBooks);
+
+/***/ }),
+
+/***/ "./resources/js/composables/BookUpdate.js":
+/*!************************************************!*\
+  !*** ./resources/js/composables/BookUpdate.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+var updateBook = function updateBook(id, formData) {
+  var error = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+
+  var load = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              formData.append("_method", 'PUT');
+              _context.next = 4;
+              return fetch("/api/books/" + id, {
+                method: 'POST',
+                body: formData
+              });
+
+            case 4:
+              data = _context.sent;
+
+              if (data.ok) {
+                _context.next = 7;
+                break;
+              }
+
+              throw Error("Sumthin went wrong");
+
+            case 7:
+              console.log(data);
+              _context.next = 14;
+              break;
+
+            case 10:
+              _context.prev = 10;
+              _context.t0 = _context["catch"](0);
+              error.value = _context.t0.message;
+              console.log(error.value);
+
+            case 14:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 10]]);
+    }));
+
+    return function load() {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  return {
+    error: error,
+    load: load
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateBook);
 
 /***/ }),
 
@@ -18539,7 +18805,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.book-view-wrapper{\r\n        margin: 0 auto;\r\n        width: 500px;\n}\n.book-view-buttons{\r\n        display: flex;\r\n        justify-content: space-evenly;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.book-view-wrapper{\r\n        margin: 0 auto;\r\n        width: 500px;\n}\n.book-view-buttons{\r\n        display: flex;\r\n        justify-content: space-evenly;\n}\n.book-update-buttons{\r\n        display: flex;\n}\n.book-update-buttons > *{\r\n        flex-grow: 1;\r\n        padding: 10px 0;\r\n        font-weight: bold;\n}\ninput[value=\"Update Book\"]{\r\n        background-color: rgb(45, 175, 45);\n}\n.cancel-btn {\r\n        background-color: red;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -18563,7 +18829,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nform{\r\n        display: flex;\r\n        flex-direction: column;\r\n        margin: 10px 0;\r\n        margin-top: 0;\n}\n.rounded-input{\r\n        border-radius: 10px;\n}\ninput[type=\"text\"], input[type=\"date\"]{\r\n        height: 1.5rem;\n}\nform :nth-child(odd){\r\n        margin: 10px;\n}\ninput[type=\"submit\"]{\r\n        background-color: rgb(45, 175, 45);\r\n        font-weight: bold;\r\n        margin: 10px auto; \r\n        height: 2.5rem;\r\n        width: 100%;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nform{\r\n        display: flex;\r\n        flex-direction: column;\r\n        margin: 10px 0;\r\n        margin-top: 0;\n}\n.rounded-input{\r\n        border-radius: 10px;\n}\ninput[type=\"text\"], input[type=\"date\"]{\r\n        height: 1.5rem;\n}\nform :nth-child(odd){\r\n        margin: 10px;\n}\n.book-add-submit{\r\n        background-color: rgb(45, 175, 45);\r\n        font-weight: bold;\r\n        margin: 10px auto; \r\n        height: 2.5rem;\r\n        width: 100%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -18587,7 +18853,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2, h3, p, label{\r\n        text-align: center;\r\n        font-family: Helvetica;\n}\n.book-list-wrapper{\r\n        display: flex;\r\n        flex-flow: column wrap;\r\n        height: calc(185*4)px;\r\n        width: 260px;\n}\n.book-header{\r\n        width: 100%;\r\n        border-bottom: 2px solid black;\n}\n.book {\r\n        display: flex;\r\n        flex-direction: column;\r\n        background: white;\r\n        margin: 10px auto;\r\n        padding: 10px;\r\n        border-radius: 15px;\r\n        width: 40%;\r\n        height: 185px;\n}\n.book:hover{\r\n        background: greenyellow;\n}\n.selected {\r\n        outline: 3px solid black;\r\n        background: greenyellow;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2, h3, p, label{\r\n        text-align: center;\r\n        font-family: Helvetica;\n}\n.book-list-wrapper{\r\n        display: flex;\r\n        flex-flow: column wrap;\r\n        max-height: 680px;\r\n        width: 260px;\n}\n.book-header{\r\n        width: 100%;\r\n        border-bottom: 2px solid black;\n}\n.book {\r\n        display: flex;\r\n        flex-direction: column;\r\n        background: white;\r\n        margin: 10px auto;\r\n        padding: 10px;\r\n        border-radius: 10px;\r\n        width: 40%;\r\n        height: 185px;\n}\n.book:hover{\r\n        background: greenyellow;\n}\n.selected {\r\n        outline: 3px solid black;\r\n        background: greenyellow;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
