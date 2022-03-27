@@ -36,7 +36,7 @@ class BookIndexEndpointTest extends TestCase
 
         $response->assertStatus(200);
 
-        $this->assertEquals(3, Book::count());
+        $this->assertDatabaseCount('books', 3);
 
         $this->assertDatabaseHas('books', $bookTitles);
     }
@@ -47,6 +47,6 @@ class BookIndexEndpointTest extends TestCase
 
         $response->assertStatus(200);
 
-        $this->assertEquals(0, Book::count());
+        $this->assertDatabaseCount('books', 0);
     }
 }
