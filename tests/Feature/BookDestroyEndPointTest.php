@@ -32,9 +32,7 @@ class BookDestroyEndPointTest extends TestCase
 
     public function testIfEndpointFailsByDeletingANonExistentRecord()
     {
-        $response = $this->delete('/api/books/1');
-
-        //route('books')
+        $response = $this->delete(route('books.destroy', ['book' => 1]));
 
         $this->assertDatabaseMissing('books', ['id' => 1]);
         $response->assertStatus(404);
