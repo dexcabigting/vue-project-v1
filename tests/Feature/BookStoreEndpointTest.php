@@ -58,4 +58,21 @@ class BookStoreEndpointTest extends TestCase
         $response->assertInvalid(['title', 'author', 'description', 'category', 'publishing_house', 'publishing_date']);
         $response->assertStatus(302);
     }
+
+    public function testIfEndpointFailsWhenOneOrMoreFormInputsAreInvalid()
+    {
+        $book = [
+            'title' => '1234',
+            'author' => '1234',
+            'description' => '1234',
+            'category' => '1234',
+            'publishing_house' => '1234',
+            'publishing_date' => '1234'
+        ];
+
+        $response = $this->post('/api/books', $book);
+
+        $response->assertInvalid(['title', 'author', 'description', 'category', 'publishing_house', 'publishing_date']);
+        $response->assertStatus(302);
+    }
 }
