@@ -18,7 +18,7 @@ class BookDestroyEndPointTest extends TestCase
 
     // Test to Pass
 
-    public function testIfDestroyEndpointExistsByDeletingARecord()
+    public function testIfEndpointExistsByDeletingAValidRecord()
     {
         $book = Book::factory()->create();
 
