@@ -41,8 +41,8 @@ class BookStoreEndpointTest extends TestCase
     }
 
     // Test to Fail
-    
-    public function testIfEndpointRejectsMissingOneOrMoreFormInputs()
+
+    public function testIfEndpointFailsWhenOneOrMoreFormInputsAreMissing()
     {
         $book = [
             'title' => null,
