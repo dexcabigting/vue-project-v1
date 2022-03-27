@@ -36,7 +36,7 @@ class BookShowEndpointTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testIfEndpointRejectsInvalidId()
+    public function testIfEndpointRejectsInvalidRecordId()
     {
         $response = $this->get('/api/books/' . 'adwwq');
 
