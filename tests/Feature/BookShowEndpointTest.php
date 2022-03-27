@@ -28,6 +28,8 @@ class BookShowEndpointTest extends TestCase
         $response->assertStatus(200);
     }
 
+    // Test to Fail
+
     public function testIfEndpointRejectsNonExistentRecord()
     {
         $response = $this->get('/api/books/' . 1);
@@ -42,6 +44,4 @@ class BookShowEndpointTest extends TestCase
 
         $response->assertStatus(404);
     }
-
-    // Test to Fail
 }
