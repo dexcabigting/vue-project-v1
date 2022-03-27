@@ -15,6 +15,9 @@ class BookShowEndpointTest extends TestCase
      *
      * @return void
      */
+
+    // Test to Pass
+
     public function testIfShowEndpointExistsByRetrievingARecord()
     {
         $book = Book::factory()->create();
@@ -39,4 +42,6 @@ class BookShowEndpointTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    // Test to Fail
 }
