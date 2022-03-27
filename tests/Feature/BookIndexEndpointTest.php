@@ -16,6 +16,9 @@ class BookIndexEndpointTest extends TestCase
      *
      * @return void
      */
+
+    // Test to Pass
+
     public function testIfEndpointExists()
     {
         $response = $this->get('/api/books');
