@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 use App\Models\Book;
 
-class BookDestroyEndPointTest extends TestCase
+class DestroyEndPointTest extends TestCase
 {
     /**
      * A basic feature test example.
