@@ -22,7 +22,7 @@ class BookDestroyEndPointTest extends TestCase
     {
         $book = Book::factory()->create();
 
-        $response = $this->delete('/api/books/' . $book->id);
+        $response = $this->delete(route('books.destroy', ['book' => $book]));
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('books', ['id' => $book->id]);
@@ -33,6 +33,8 @@ class BookDestroyEndPointTest extends TestCase
     public function testIfEndpointFailsByDeletingANonExistentRecord()
     {
         $response = $this->delete('/api/books/1');
+
+        //route('books')
 
         $this->assertDatabaseMissing('books', ['id' => 1]);
         $response->assertStatus(404);
