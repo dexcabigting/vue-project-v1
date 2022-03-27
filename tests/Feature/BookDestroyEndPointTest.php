@@ -15,6 +15,9 @@ class BookDestroyEndPointTest extends TestCase
      *
      * @return void
      */
+
+    // Test to Pass
+
     public function testIfDestroyEndpointExistsByDeletingARecord()
     {
         $book = Book::factory()->create();
@@ -24,4 +27,6 @@ class BookDestroyEndPointTest extends TestCase
         $response->assertStatus(204);
         $this->assertDatabaseMissing('books', ['id' => $book->id]);
     }
+
+    // Test to Fail
 }
