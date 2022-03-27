@@ -29,4 +29,11 @@ class BookUpdateEndpointTest extends TestCase
     }
 
     // Test to Fail
+
+    public function testIfUpdateEndpointFailsIfThereAreNoRecords()
+    {
+        $response = $this->patch('/api/books/1', ['title' => 'Jejomar Binay']);
+
+        $response->assertStatus(404);
+    }
 }
