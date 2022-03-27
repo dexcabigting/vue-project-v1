@@ -18,7 +18,7 @@ class BookUpdateEndpointTest extends TestCase
 
     // Test to Pass
 
-    public function testIfUpdateEndpointExistsByModifyingARecordWithValidInputs()
+    public function testIfUpdateEndpointExistsByModifyingARecordWithValidData()
     {
         $book = Book::factory()->create();
 
@@ -46,7 +46,7 @@ class BookUpdateEndpointTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testIfUpdateEndpointFailsByModifyingARecordWithInvalidInputs()
+    public function testIfUpdateEndpointFailsByModifyingARecordWithInvalidData()
     {
         $book = Book::factory()->create();
 
