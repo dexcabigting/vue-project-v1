@@ -36,4 +36,23 @@ class BookUpdateEndpointTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function testIfUpdateEndpointFailsByModifyingARecordWithInvalidInputs()
+    {
+        $book = Book::factory()->create();
+
+        $invalidData = [
+            'title' => 'Leni',
+            'author' => 'Luga',
+            'category' => '1313',
+            'description' => '1233',
+            'publishing_house' => '1233',
+            'publishing_date' => '1332',
+        ];
+
+        $response = $this->patch('/api/books/' . $book->id, $invalidData);
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('books', $invalidData);
+    }
 }
