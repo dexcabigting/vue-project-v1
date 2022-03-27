@@ -46,6 +46,25 @@ class BookUpdateEndpointTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function testIfEndpointFailsWhenOneOrMoreFormInputsAreMissing()
+    {
+        $book = Book::factory()->create();
+
+        $invalidData = [
+            'title' => null,
+            'author' => null,
+            'category' => null,
+            'description' => null,
+            'publishing_house' => null,
+            'publishing_date' => null,
+        ];
+
+        $response = $this->patch('/api/books/' . $book->id, $invalidData);
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('books', $invalidData);
+    }
+
     public function testIfEndpointFailsWhenOneOrMoreFormInputsAreInvalid()
     {
         $book = Book::factory()->create();
