@@ -15,7 +15,9 @@
   </div>
   <div v-else class="book-view-wrapper">
       <h2 class="book-header"> Book Title </h2>
-      No book selected...
+      <slot> 
+          
+      </slot>
   </div>
 </template>
 

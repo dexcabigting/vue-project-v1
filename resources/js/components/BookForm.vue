@@ -2,24 +2,24 @@
   <h2 class="book-header"> Add book </h2>
   <form @submit.prevent="handleSubmit"> 
       <label> Book Title: </label>
-      <input type="text" required v-model="title">
+      <input class="rounded-input" type="text" required v-model="title">
 
       <label> Book Author: </label>
-      <input type="text" required v-model="author">
+      <input class="rounded-input" type="text" required v-model="author">
 
       <label> Book Category: </label>
-      <input type="text" required v-model="category">
+      <input class="rounded-input" type="text" required v-model="category">
 
       <label> Book Description: </label>
-      <textarea name="" id="" cols="30" rows="10" v-model="description"></textarea>
+      <textarea class="rounded-input" name="" id="" cols="30" rows="10" v-model="description"></textarea>
 
       <label> Publishing House: </label>
-      <input type="text" required v-model="publishing_house">
+      <input class="rounded-input" type="text" required v-model="publishing_house">
 
       <label> Publish Date: </label>
-      <input type="date" required v-model="publishing_date">
+      <input class="rounded-input" type="date" required v-model="publishing_date">
 
-      <input type="submit">
+      <input class="rounded-input" type="submit" value="Add Book">
   </form>
 </template>
 
@@ -27,6 +27,7 @@
 import { toRefs, reactive } from 'vue'
 
 export default {
+    emits: ['submitted'],
     setup(props, { emit }){
         const formData = reactive
         ({
@@ -61,5 +62,21 @@ export default {
         flex-direction: column;
         margin: 10px 0;
         margin-top: 0;
+    }
+    .rounded-input{
+        border-radius: 10px;
+    }
+    input[type="text"], input[type="date"]{
+        height: 1.5rem;
+    }
+    form :nth-child(odd){
+        margin: 10px;
+    }
+    input[type="submit"]{
+        background-color: rgb(45, 175, 45);
+        font-weight: bold;
+        margin: 10px auto; 
+        height: 2.5rem;
+        width: 100%;
     }
 </style>

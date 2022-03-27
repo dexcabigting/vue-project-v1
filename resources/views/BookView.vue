@@ -4,16 +4,18 @@
       <BookList :books="books" @bookClick="setBookId" />
     </div>
     <div class="book-window book-details sidemargin">
-      <BookDetails :selectedBook="selectedBook" @deleteClicked="deleteBk" />
+      <BookDetails :selectedBook="selectedBook" @deleteClicked="deleteBk"> 
+        <p> {{ defaultBookDetailMessage }}</p>
+      </BookDetails>
     </div>
     <div class="book-window book-form sidemargin">
-      <BookForm @submitted="insert" />
+      <BookForm @submitted="insertBk"/>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import BookList from '../js/components/BookList.vue'
 import BookDetails from '../js/components/BookDetails.vue'
 import BookForm from '../js/components/BookForm.vue'
@@ -30,6 +32,10 @@ export default {
 
     let selectedBook = ref(null)
 
+    let defaultBookDetailMessage = ref("No book selected")
+
+    watch(selectedBook, () => defaultBookDetailMessage.value = "Loading...")
+
     const setBks = () => {
       load()
     }
@@ -43,12 +49,17 @@ export default {
     }
 
 
-    const insert = (formData) => {
-      fetch("http://localhost:8000/api/books", {
-        method: 'post',
-        body: formData,
-      })
-      .then(res => res.json())
+    const insertBk = async (formData) => {
+      try{
+        await fetch("http://localhost:8000/api/books", {
+          method: 'post',
+          body: formData,
+        })
+        .then(res => res.json())
+      }
+      catch(err){
+        console.log(err.message)
+      }
 
       setBks()
 
@@ -56,7 +67,6 @@ export default {
     }
 
     const deleteBk = (id) => {
-      console.log(id)
       const { err, load } = deleteBook(id)
 
       load()
@@ -66,7 +76,7 @@ export default {
       alert("Entry Deleted")
     }
 
-    return { books, error, selectedBook, setBookId, insert, deleteBk }
+    return { defaultBookDetailMessage , books, error, selectedBook, setBookId, insertBk, deleteBk }
   }
 }
 </script>
@@ -89,14 +99,15 @@ export default {
       padding: 20px;
   }
   .book-details{
-    flex-grow: 3;
+    flex-grow: 2;
+    padding: 0 20px;
   }
   .book-form{
       flex-grow: 1;
       padding: 0 20px;
   }
   .centered {
-    margin: auto;
+    margin: 0 auto;
   }
   .sidemargin {
     margin: 0 2.5px;

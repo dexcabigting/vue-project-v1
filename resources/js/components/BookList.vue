@@ -1,6 +1,6 @@
 <template>
+  <h2 class="book-header centered"> Books </h2>
   <div v-if="books.data" class="book-list-wrapper">
-      <h2 class="book-header centered"> Books </h2>
       <div @click="setBookId(book.id)" 
         v-for="book in books.data" 
         :key="book.id" class="book"
@@ -10,16 +10,16 @@
       </div>
   </div>
   <div v-else class="book-list-wrapper">
-      <h2 class="book-header centered"> Books </h2>
       Loading...
   </div>
 </template>
 
 <script>
-import { watch, ref } from 'vue'
+import { ref } from 'vue'
 
 export default {
     props: ['books'],
+    emits: ['bookClick'],
     setup(props, { emit }) {
 
         const selectedBook = ref(null);
@@ -35,8 +35,15 @@ export default {
 </script>
 
 <style>
-    h2, h3, p{
+    h2, h3, p, label{
         text-align: center;
+        font-family: Helvetica;
+    }
+    .book-list-wrapper{
+        display: flex;
+        flex-flow: column wrap;
+        height: calc(185*4)px;
+        width: 260px;
     }
     .book-header{
         width: 100%;
@@ -47,10 +54,11 @@ export default {
         display: flex;
         flex-direction: column;
         background: white;
-        margin: 20px auto;
+        margin: 10px auto;
         padding: 10px;
-        border-radius: 20px;
+        border-radius: 15px;
         width: 40%;
+        height: 185px;
     }
     .book:hover{
         background: greenyellow;
