@@ -18,7 +18,7 @@ class BookStoreEndpointTest extends TestCase
 
     // Test to Pass
 
-    public function testIfEndpointExistsWithValidInputs()
+    public function testIfEndpointExistsWithValidData()
     {
         $this->withoutExceptionHandling();
 
