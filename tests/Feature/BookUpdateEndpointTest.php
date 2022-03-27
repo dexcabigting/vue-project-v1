@@ -18,7 +18,7 @@ class BookUpdateEndpointTest extends TestCase
 
     // Test to Pass
 
-    public function testIfUpdateEndpointExistsByModifyingARecord()
+    public function testIfUpdateEndpointExistsByModifyingARecordWithValidInputs()
     {
         $book = Book::factory()->create();
 
