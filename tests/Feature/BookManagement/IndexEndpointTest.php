@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 use App\Models\Book;
 
-class BookIndexEndpointTest extends TestCase
+class IndexEndpointTest extends TestCase
 {
     // use RefreshDatabase;
 
