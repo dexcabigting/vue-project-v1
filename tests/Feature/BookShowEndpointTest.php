@@ -18,7 +18,7 @@ class BookShowEndpointTest extends TestCase
 
     // Test to Pass
 
-    public function testIfShowEndpointExistsByRetrievingARecord()
+    public function testIfEndpointExistsByRetrievingARecord()
     {
         $book = Book::factory()->create();
 
@@ -28,7 +28,7 @@ class BookShowEndpointTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testIfShowEndpointRejectsNonExistentRecord()
+    public function testIfEndpointRejectsNonExistentRecord()
     {
         $response = $this->get('/api/books/' . 1);
 
@@ -36,7 +36,7 @@ class BookShowEndpointTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testIfShowEndpointRejectsInvalidId()
+    public function testIfEndpointRejectsInvalidId()
     {
         $response = $this->get('/api/books/' . 'adwwq');
 
