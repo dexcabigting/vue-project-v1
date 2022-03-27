@@ -22,10 +22,19 @@ class BookUpdateEndpointTest extends TestCase
     {
         $book = Book::factory()->create();
 
-        $response = $this->patch('/api/books/' . $book->id, ['title' => 'Barako']);
+        $validData = [
+            'title' => 'Barako',
+            'author' => 'Redbull',
+            'category' => 'Action Drama',
+            'description' => 'Shut up',
+            'publishing_house' => 'Tujong',
+            'publishing_date' => now()
+        ];
+
+        $response = $this->put('/api/books/' . $book->id, $validData);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('books', ['id' => $book->id, 'title' => 'Barako']);
+        $this->assertDatabaseHas('books', $validData);
     }
 
     // Test to Fail
