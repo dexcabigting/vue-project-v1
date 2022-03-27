@@ -16,14 +16,14 @@ class BookIndexEndpointTest extends TestCase
      *
      * @return void
      */
-    public function testIfIndexEndpointExists()
+    public function testIfEndpointExists()
     {
         $response = $this->get('/api/books');
 
         $response->assertStatus(200);
     }
 
-    public function testIfIndexEndpointHasExistingRecords()
+    public function testIfEndpointRespondsWithExistingRecords()
     {
         $books = Book::factory()->count(3)->create();
 
@@ -38,7 +38,7 @@ class BookIndexEndpointTest extends TestCase
         $this->assertDatabaseHas('books', $bookTitles);
     }
 
-    public function testIfIndexEndpointHasEmptyRecords()
+    public function testIfEndpointRespondsWithEmptyRecords()
     {
         $response = $this->get('/api/books');
 
