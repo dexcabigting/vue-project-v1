@@ -15,7 +15,7 @@ class BookStoreEndpointTest extends TestCase
      *
      * @return void
      */
-    public function testIfStoreEndpointExistsWithValidInputs()
+    public function testIfEndpointExistsWithValidInputs()
     {
         $this->withoutExceptionHandling();
 
@@ -37,7 +37,7 @@ class BookStoreEndpointTest extends TestCase
         $response->assertStatus(201);
     }
 
-    public function testIfStoreEndpointRejectsMissingInputs()
+    public function testIfEndpointRejectsMissingInputs()
     {
         $book = [
             'title' => null,
@@ -54,7 +54,7 @@ class BookStoreEndpointTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testIfStoreEndpointRejectsInvalidTitle()
+    public function testIfEndpointRejectsInvalidTitle()
     {
         $book = [
             'title' => 'Samp',
@@ -71,7 +71,7 @@ class BookStoreEndpointTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testIfStoreEndpointRejectsInvalidAuthor()
+    public function testIfEndpointRejectsInvalidAuthor()
     {
         $book = [
             'title' => 'Sample Book',
@@ -89,7 +89,7 @@ class BookStoreEndpointTest extends TestCase
     }
 
     
-    public function testIfStoreEndpointRejectsInvalidDescription()
+    public function testIfEndpointRejectsInvalidDescription()
     {
         $book = [
             'title' => 'Sample Book',
@@ -106,7 +106,7 @@ class BookStoreEndpointTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testIfStoreEndpointRejectsInvalidCategory()
+    public function testIfEndpointRejectsInvalidCategory()
     {
         $book = [
             'title' => 'Sample Book',
@@ -123,7 +123,7 @@ class BookStoreEndpointTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testIfStoreEndpointRejectsInvalidPublishingHouse()
+    public function testIfEndpointRejectsInvalidPublishingHouse()
     {
         $book = [
             'title' => 'Sample Book',
@@ -140,7 +140,7 @@ class BookStoreEndpointTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testIfStoreEndpointRejectsInvalidPublishingDate()
+    public function testIfEndpointRejectsInvalidPublishingDate()
     {
         $book = [
             'title' => 'Sample Book',
