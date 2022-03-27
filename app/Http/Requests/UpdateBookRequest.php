@@ -24,11 +24,11 @@ class UpdateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['max:100'],
-            'author' => ['max:100'],
-            'category' => ['max:100'],
-            'description' => ['max:100'],
-            'publishing_house' => ['max:100'],
+            'title' => ['string', 'min:5', 'max:100'],
+            'author' => ['string', 'min:5', 'max:100'],
+            'category' => ['string', 'min:5', 'max:100'],
+            'description' => ['string', 'min:5', 'max:100'],
+            'publishing_house' => ['string', 'min:5', 'max:100'],
             'publishing_date' => ['date']
         ];
     }
