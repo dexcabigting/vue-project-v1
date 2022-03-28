@@ -42,7 +42,6 @@ export default {
     .scroll {
         overflow-x: auto;
         overflow-y: hidden;
-        height: 800px;
     }
     h2, h3, p, label, a{
         text-align: center;
