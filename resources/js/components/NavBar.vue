@@ -4,8 +4,12 @@
         <h1> Vue-Project-v1</h1>
       </router-link>
       <ul>
-          <li>Login</li>
-          <li>Register</li>
+          <li>
+            <router-link :to="{ name: 'login' }"> Login </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'register' }"> Register </router-link>
+          </li>
           <li>
             <router-link :to="{ name: 'books' }"> Books </router-link>
           </li>
