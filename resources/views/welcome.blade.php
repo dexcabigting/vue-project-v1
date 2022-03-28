@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Test</title>
+        <title>Vue-Project-v1</title>
 
     </head>
     <body>
         <div id="app">
             
         </div>
-        <script type="text/javascript" src="{{ asset('js/app.js') }}" ></script>
+        <script src="{{ asset('js/app.js') }}" ></script>
     </body>
 </html>
