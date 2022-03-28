@@ -4,7 +4,7 @@
       <div @click="setBookId(book.id)" 
         v-for="book in books.data" 
         :key="book.id" class="book"
-        :class="{ selected: book.id === selectedBook}">
+        :class="{ selected: book.id === selectedBook }">
           <h3> {{ book.title }} </h3>
           <p> By {{ book.author }} </p>
       </div>
@@ -15,19 +15,23 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export default {
-    props: ['books'],
+    props: ['books', 'bookAdded'],
     emits: ['bookClick'],
     setup(props, { emit }) {
 
         const selectedBook = ref(null);
 
-        function setBookId(id) {
+        const setBookId = (id) => {
             selectedBook.value = id
             emit('bookClick', id)
         }
+
+        watch(() => props.bookAdded, () => {
+            selectedBook.value = props.bookAdded
+        })
 
         return { setBookId, selectedBook }
     }

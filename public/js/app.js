@@ -17547,6 +17547,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     var deleteBook = function deleteBook(id) {
       emit('deleteClicked', id);
+      props.selectedBook.value = null;
     };
 
     function handleSubmit() {
@@ -17642,17 +17643,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['books'],
+  props: ['books', 'bookAdded'],
   emits: ['bookClick'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
     var selectedBook = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
 
-    function setBookId(id) {
+    var setBookId = function setBookId(id) {
       selectedBook.value = id;
       emit('bookClick', id);
-    }
+    };
 
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(function () {
+      return props.bookAdded;
+    }, function () {
+      selectedBook.value = props.bookAdded;
+    });
     return {
       setBookId: setBookId,
       selectedBook: selectedBook
@@ -17726,6 +17732,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     load();
     var selectedBook = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    var bookAdded = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
     var defaultBookDetailMessage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)("No book selected");
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(selectedBook, function () {
       return defaultBookDetailMessage.value = "Loading...";
@@ -17742,6 +17749,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           load = _getBook.load;
 
       load();
+
+      if (error.value) {
+        console.log(error.value);
+        return;
+      }
+
       selectedBook.value = book;
     };
 
@@ -17756,6 +17769,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return fetch("/api/books", {
                   method: 'post',
                   body: formData
+                }).then(function (res) {
+                  return res.json();
+                }).then(function (res) {
+                  setBks();
+                  bookAdded.value = res.data.id;
+                  setBookId(res.data.id);
                 });
 
               case 3:
@@ -17768,10 +17787,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 console.log(_context.t0.message);
 
               case 8:
-                setBks();
                 alert("Entry Added");
 
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -17798,9 +17816,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       alert("Book updated");
       setBks();
+      setBookId(id);
     };
 
     var deleteBk = function deleteBk(id) {
+      defaultBookDetailMessage.value = "No book selected";
+
       var _deleteBook = (0,_js_composables_BookDelete__WEBPACK_IMPORTED_MODULE_8__["default"])(id),
           err = _deleteBook.err,
           load = _deleteBook.load;
@@ -17812,6 +17833,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return {
       defaultBookDetailMessage: defaultBookDetailMessage,
+      bookAdded: bookAdded,
       books: books,
       error: error,
       selectedBook: selectedBook,
@@ -18298,10 +18320,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookList, {
     books: $setup.books,
+    bookAdded: $setup.bookAdded,
     onBookClick: $setup.setBookId
   }, null, 8
   /* PROPS */
-  , ["books", "onBookClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookDetails, {
+  , ["books", "bookAdded", "onBookClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BookDetails, {
     selectedBook: $setup.selectedBook,
     onUpdateClicked: $setup.updateBk,
     onDeleteClicked: $setup.deleteBk

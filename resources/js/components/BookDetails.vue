@@ -82,6 +82,7 @@ export default {
 
         const deleteBook = (id) => {
             emit('deleteClicked', id)
+            props.selectedBook.value = null
         }
 
         function handleSubmit(){

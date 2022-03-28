@@ -1,7 +1,7 @@
 <template>
   <div class="book-view">
     <div class="book-window book-list sidemargin">
-      <BookList :books="books" @bookClick="setBookId" />
+      <BookList :books="books" :bookAdded="bookAdded" @bookClick="setBookId" />
     </div>
     <div class="book-window book-details sidemargin">
       <BookDetails :selectedBook="selectedBook" @updateClicked="updateBk" @deleteClicked="deleteBk"> 
@@ -31,7 +31,9 @@ export default {
 
     load()
 
-    let selectedBook = ref(null)
+    const selectedBook = ref(null)
+
+    const bookAdded = ref(null)
 
     let defaultBookDetailMessage = ref("No book selected")
 
@@ -46,24 +48,33 @@ export default {
 
       load()
 
+      if (error.value) {
+        console.log(error.value)
+        return
+      }
+
       selectedBook.value = book
     }
 
 
     const insertBk = async (formData) => {
-      try{
+      try{     
         await fetch("/api/books", {
           method: 'post',
           body: formData,
-        })
+        }).then(res => res.json())
+          .then(res => {
+            setBks()
+            bookAdded.value = res.data.id
+            setBookId(res.data.id)
+          })
       }
       catch(err){
         console.log(err.message)
       }
 
-      setBks()
-
       alert("Entry Added")
+
     }
 
     const updateBk = (id, fd) => {
@@ -79,9 +90,13 @@ export default {
       alert("Book updated")
 
       setBks()
+
+      setBookId(id)
     }
 
     const deleteBk = (id) => {
+      defaultBookDetailMessage.value = "No book selected"
+      
       const { err, load } = deleteBook(id)
 
       load()
@@ -91,7 +106,7 @@ export default {
       alert("Entry Deleted")
     }
 
-    return { defaultBookDetailMessage , books, error, selectedBook, setBookId, insertBk, updateBk, deleteBk }
+    return { defaultBookDetailMessage, bookAdded, books, error, selectedBook, setBookId, insertBk, updateBk, deleteBk }
   }
 }
 </script>
