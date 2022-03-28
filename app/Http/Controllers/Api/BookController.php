@@ -65,9 +65,7 @@ class BookController extends Controller
     {
         // Update method gets the requests from the edit method and updates the resource in the database.
 
-        $bookUpdate = $request->all();
-
-        $book->update($bookUpdate);
+        $book->update($request->all());
 
         return new BookResource($book);
     }
@@ -84,6 +82,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return response("Book has been deleted successfully", 200);
+        return response(null, 204);
     }
 }
