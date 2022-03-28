@@ -1,7 +1,7 @@
 <template>
   <nav>
       <router-link :to="{ name:'home' }"> 
-        <h1> Vue-Project-v1</h1>
+        <h1> VUE-PROJECT-V1</h1>
       </router-link>
       <ul>
           <li>
@@ -30,7 +30,9 @@ export default {
         align-content: center;
         background: rgb(23, 177, 23);
     }
-
+    h1 {
+      margin-left: 10px;
+    }
     ul {
        display: flex;
        list-style-type: none;
@@ -45,5 +47,6 @@ export default {
     a {  
         text-decoration: none;
         color: white;
+        text-transform: uppercase;
     }
 </style>

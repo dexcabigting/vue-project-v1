@@ -1,6 +1,6 @@
 <template>
   <h2 class="book-header"> Add book </h2>
-  <form @submit.prevent="handleSubmit"> 
+  <form @submit.prevent="handleSubmit" class="book-add-form"> 
       <label> Book Title: </label>
       <input class="rounded-input" type="text" required v-model="title">
 
@@ -57,25 +57,10 @@ export default {
 </script>
 
 <style>
-    form{
-        display: flex;
-        flex-direction: column;
-        margin: 10px 0;
-        margin-top: 0;
-    }
-    .rounded-input{
-        border-radius: 10px;
-    }
-    input[type="text"], input[type="date"]{
-        height: 1.5rem;
-    }
-    form :nth-child(odd){
-        margin: 10px;
-    }
     .book-add-submit{
-        background-color: rgb(45, 175, 45);
+        background-color: var(--process-button);
         font-weight: bold;
-        margin: 10px auto; 
+        margin: 10px auto;
         height: 2.5rem;
         width: 100%;
     }

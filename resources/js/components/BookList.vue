@@ -1,6 +1,6 @@
 <template>
   <h2 class="book-header centered"> Books </h2>
-  <div v-if="books.data" class="book-list-wrapper">
+  <div v-if="books.data" class="book-list-wrapper scroll">
       <div @click="setBookId(book.id)" 
         v-for="book in books.data" 
         :key="book.id" class="book"
@@ -39,7 +39,12 @@ export default {
 </script>
 
 <style>
-    h2, h3, p, label{
+    .scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 800px;
+    }
+    h2, h3, p, label, a{
         text-align: center;
         font-family: Helvetica;
     }
@@ -47,7 +52,7 @@ export default {
         display: flex;
         flex-flow: column wrap;
         max-height: 680px;
-        width: 260px;
+        width: 300px;
     }
     .book-header{
         width: 100%;
@@ -58,11 +63,11 @@ export default {
         display: flex;
         flex-direction: column;
         background: white;
-        margin: 10px auto;
+        margin: 10px 5px;
         padding: 10px;
         border-radius: 10px;
         width: 40%;
-        height: 185px;
+        height: 170px;
     }
     .book:hover{
         background: greenyellow;

@@ -1,7 +1,7 @@
 <template>
   <div v-if="selectedBook?.value && !editMode" class="book-view-wrapper">
       <h2 class="book-header">{{ selectedBook.value.data.title }}</h2>
-      <p> Author: {{ selectedBook.value.data.title }}</p>
+      <p> Author: {{ selectedBook.value.data.author }}</p>
       <p> Category: {{ selectedBook.value.data.category }}</p>
       <p> Description: {{ selectedBook.value.data.description }}</p>
       <p> Publishing House: {{ selectedBook.value.data.publishing_house }}</p>
@@ -9,8 +9,8 @@
       <p> Entry created at: {{ selectedBook.value.data.created_at }}</p>
       <p> Entry last updated at: {{ selectedBook.value.data.updated_at }}</p>
       <div class="book-view-buttons">
-        <button @click="updateFormData()"> Edit </button>
-        <button @click="deleteBook(selectedBook.value.data.id)"> Delete </button>
+        <button @click="updateFormData()" class="edit-button rounded-input"> Edit </button>
+        <button @click="deleteBook(selectedBook.value.data.id)" class="delete-button rounded-input"> Delete </button>
       </div>
   </div>
   <div v-else-if="selectedBook?.value && editMode" class="book-view-wrapper">
@@ -36,7 +36,7 @@
       <input class="rounded-input" type="submit" value="Update Book">
   </form>
       <div class="book-update-buttons">
-        <button @click="editMode = false" class="cancel-btn rounded-input"> Cancel </button>
+        <button @click="editMode = false" class="cancel-button rounded-input"> Cancel </button>
       </div>
   </div>
   <div v-else class="book-view-wrapper">
@@ -125,10 +125,15 @@ export default {
         padding: 10px 0;
         font-weight: bold;
     }
-    input[value="Update Book"]{
-        background-color: rgb(45, 175, 45);
+    input[value="Update Book"], .edit-button{
+        background-color: var(--process-button);
+        padding: 10px 1.5rem;
+        font-weight: bold;
+
     }
-    .cancel-btn {
-        background-color: red;
+    .cancel-button , .delete-button{
+        background-color: var(--hot-button);
+        padding: 10px 1.5rem;
+        font-weight: bold;
     }
 </style>
